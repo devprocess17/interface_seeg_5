@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Parcours Collaborateur SEEG: Votre Expérience RH Digitalisée avec le MCH</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --seeg-blue: #0055A4;
+            --seeg-light-blue: #4A89DC;
+            --seeg-very-light-blue: #EBF3FF;
+            --seeg-white: #FFFFFF;
+            --text-color: #333333;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background-color: #F9FBFF;
+        }
+        
+        .seeg-blue {
+            background-color: var(--seeg-blue);
+        }
+        
+        .seeg-light-blue {
+            background-color: var(--seeg-light-blue);
+        }
+
+        .seeg-very-light-blue {
+            background-color: var(--seeg-very-light-blue);
+        }
+        
+        .seeg-text-blue {
+            color: var(--seeg-blue);
+        }
+        
+        .seeg-white {
+            background-color: var(--seeg-white);
+        }
+        
+        .header-gradient {
+            background: linear-gradient(to right, var(--seeg-blue), var(--seeg-light-blue));
+        }
+
+        .timeline-connector {
+            height: 4px;
+            background: var(--seeg-light-blue);
+            position: absolute;
+            top: 45px;
+            left: 50px;
+            right: 50px;
+            z-index: 1;
+        }
+        
+        .phase-node {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        
+        .phase-node:hover {
+            transform: scale(1.05);
+        }
+        
+        .phase-node-active {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 85, 164, 0.3);
+        }
+        
+        .phase-content {
+            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        
+        .phase-content.active {
+            display: block;
+            max-height: 5000px;
+            transition: max-height 0.5s ease-in-out;
+        }
+        
+        .sub-step {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        
+        .sub-step::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--seeg-light-blue);
+        }
+        
+        .sub-step::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 22px;
+            width: 2px;
+            height: calc(100% + 5px);
+            background-color: var(--seeg-light-blue);
+        }
+        
+        .sub-step:last-child::after {
+            display: none;
+        }
+        
+        .step-detail {
+            display: none;
+            background-color: white;
+            border-left: 4px solid var(--seeg-light-blue);
+            padding: 15px;
+            margin: 10px 0 15px 30px;
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .module-badge {
+            display: inline-block;
+            background-color: var(--seeg-very-light-blue);
+            color: var(--seeg-blue);
+            border: 1px solid var(--seeg-light-blue);
+            border-radius: 50px;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .transversal-modules {
+            border-left: 4px solid var(--seeg-blue);
+            border-radius: 4px;
+        }
+
+        .phase-title-container {
+            position: relative;
+        }
+
+        .phase-number {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 30px;
+            height: 30px;
+            background-color: var(--seeg-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .benefit-tag {
+            display: inline-block;
+            background-color: #E3F2FD;
+            color: #1565C0;
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        @media print {
+            .timeline-content {
+                break-inside: avoid;
+            }
+            
+            .phase-content {
+                display: block !important;
+                max-height: none !important;
+            }
+            
+            .step-detail {
+                display: block !important;
+            }
+            
+            .print-full {
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body class="pb-16">
+    <!-- Header Section -->
+    <header class="header-gradient text-white py-8 px-6 shadow-md">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">Le Parcours Collaborateur SEEG</h1>
+                    <h2 class="text-xl font-semibold">Votre Expérience RH Digitalisée avec le MCH</h2>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <h3 class="text-lg font-semibold">Direction du Capital Humain</h3>
+                    <p class="text-sm opacity-80">Société d'Énergie et d'Eau du Gabon</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Introduction Section -->
+    <section class="bg-white py-8 px-6 shadow-sm mb-8">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row items-start">
+                <div class="md:w-2/3 pr-0 md:pr-8">
+                    <h2 class="text-2xl font-bold seeg-text-blue mb-4">Transformation Digitale RH</h2>
+                    <p class="mb-4">Le Logiciel de gestion du <strong>Capital Humain (MCH)</strong> accompagne chaque étape du cycle de vie de nos collaborateurs à la SEEG. Cette solution centralisée répond aux objectifs stratégiques de notre Direction du Capital Humain :</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-chart-line text-xl seeg-text-blue"></i>
+                            <p class="font-medium">Optimisation de la performance RH</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-users-cog text-xl seeg-text-blue"></i>
+                            <p class="font-medium">Renforcement de la GPEC</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-money-bill-wave text-xl seeg-text-blue"></i>
+                            <p class="font-medium">Pilotage efficace de la masse salariale</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-user-shield text-xl seeg-text-blue"></i>
+                            <p class="font-medium">Amélioration de l'expérience collaborateur</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/3 mt-6 md:mt-0 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                    <h3 class="text-lg font-semibold seeg-text-blue mb-2">À propos de cette timeline</h3>
+                    <p class="text-sm">Cette représentation interactive vous montre comment le système <strong>MCH</strong> soutient et digitalise chaque étape du parcours complet d'un collaborateur, de son recrutement à son départ.</p>
+                    <p class="text-sm mt-2">Cliquez sur chaque phase pour découvrir les fonctionnalités associées et comment elles transforment l'expérience RH à la SEEG.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Timeline Section -->
+    <section class="container mx-auto px-4 mb-12">
+        <h2 class="text-2xl font-bold seeg-text-blue text-center mb-8">Parcours du Collaborateur SEEG</h2>
+        
+        <div class="relative mb-16">
+            <!-- Timeline Connector Line -->
+            <div class="timeline-connector"></div>
+            
+            <!-- Timeline Nodes -->
+            <div class="flex justify-between items-center">
+                <div class="phase-node seeg-blue text-white phase-node-active" onclick="showPhase(1)">
+                    <i class="fas fa-search fa-2x"></i>
+                </div>
+                <div class="phase-node seeg-light-blue text-white" onclick="showPhase(2)">
+                    <i class="fas fa-handshake fa-2x"></i>
+                </div>
+                <div class="phase-node seeg-light-blue text-white" onclick="showPhase(3)">
+                    <i class="fas fa-chart-line fa-2x"></i>
+                </div>
+                <div class="phase-node seeg-light-blue text-white" onclick="showPhase(4)">
+                    <i class="fas fa-route fa-2x"></i>
+                </div>
+                <div class="phase-node seeg-light-blue text-white" onclick="showPhase(5)">
+                    <i class="fas fa-door-open fa-2x"></i>
+                </div>
+            </div>
+            
+            <!-- Timeline Labels -->
+            <div class="flex justify-between text-center mt-4">
+                <div class="w-1/5 px-2">
+                    <h3 class="font-semibold seeg-text-blue text-sm md:text-base">Sourcing & Acquisition</h3>
+                </div>
+                <div class="w-1/5 px-2">
+                    <h3 class="font-semibold text-gray-600 text-sm md:text-base">Intégration & Socialisation</h3>
+                </div>
+                <div class="w-1/5 px-2">
+                    <h3 class="font-semibold text-gray-600 text-sm md:text-base">Engagement & Performance</h3>
+                </div>
+                <div class="w-1/5 px-2">
+                    <h3 class="font-semibold text-gray-600 text-sm md:text-base">Évolution de Carrière</h3>
+                </div>
+                <div class="w-1/5 px-2">
+                    <h3 class="font-semibold text-gray-600 text-sm md:text-base">Transition & Départ</h3>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detailed Contents for Each Phase -->
+        <div class="timeline-content">
+            <!-- Phase 1: Sourcing & Acquisition -->
+            <div id="phase1" class="phase-content active mb-12">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <div class="phase-title-container">
+                        <span class="phase-number">1</span>
+                        <h2 class="text-2xl font-bold seeg-text-blue pl-6 border-b pb-2 mb-4">SOURCING & ACQUISITION DES TALENTS</h2>
+                    </div>
+                    <p class="mb-4">Cette phase initiale couvre l'ensemble du processus de recrutement, de l'identification du besoin jusqu'à la préparation de l'arrivée du nouveau collaborateur au sein de la SEEG.</p>
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="module-badge"><i class="fas fa-laptop-code mr-1"></i> Recrutement & Intégration</span>
+                        <span class="module-badge"><i class="fas fa-database mr-1"></i> Référentiel RH</span>
+                    </div>
+                    
+                    <!-- Sub-section 1.1 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">1.1. Définition du Besoin & Stratégie d'Attraction</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-1-1')">
+                            <h4 class="font-medium">1.1.1. Analyse du besoin de recrutement</h4>
+                            <div id="step-1-1-1" class="step-detail">
+                                <p class="mb-3">Identification précise du poste à pourvoir et des compétences requises, basée sur les données structurées du référentiel.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Référentiel RH</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-bolt mr-1"></i> Gain de temps pour le manager</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-1-2')">
+                            <h4 class="font-medium">1.1.2. Élaboration de l'offre d'emploi</h4>
+                            <div id="step-1-1-2" class="step-detail">
+                                <p class="mb-3">Rédaction et validation collaborative de l'annonce, en cohérence avec les référentiels compétences et les fiches de poste.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-check-circle mr-1"></i> Cohérence des offres</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-1-3')">
+                            <h4 class="font-medium">1.1.3. Choix des canaux de diffusion</h4>
+                            <div id="step-1-1-3" class="step-detail">
+                                <p class="mb-3">Publication multicanale optimisée sur le site carrière SEEG, les job boards partenaires et les réseaux sociaux professionnels.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-search mr-1"></i> Visibilité optimisée</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-section 1.2 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">1.2. Recrutement & Sélection</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-2-1')">
+                            <h4 class="font-medium">1.2.1. Réception & Gestion des candidatures</h4>
+                            <div id="step-1-2-1" class="step-detail">
+                                <p class="mb-3">Centralisation automatique des candidatures via le portail recrutement, avec tri intelligent et accusés de réception automatisés.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-tachometer-alt mr-1"></i> Gain d'efficacité RH</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-2-2')">
+                            <h4 class="font-medium">1.2.2. Pré-sélection & Évaluation</h4>
+                            <div id="step-1-2-2" class="step-detail">
+                                <p class="mb-3">Qualification des profils via questionnaires en ligne et entretiens de pré-sélection avec suivi d'avancement intégré.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-filter mr-1"></i> Sélection optimisée</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-2-3')">
+                            <h4 class="font-medium">1.2.3. Entretiens Approfondis</h4>
+                            <div id="step-1-2-3" class="step-detail">
+                                <p class="mb-3">Planification coordonnée et gestion des entretiens RH, manager et techniques avec grilles d'évaluation standardisées et partage sécurisé des notes.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-users mr-1"></i> Collaboration facilitée</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-2-4')">
+                            <h4 class="font-medium">1.2.4. Tests & Vérifications</h4>
+                            <div id="step-1-2-4" class="step-detail">
+                                <p class="mb-3">Administration des tests techniques et de personnalité, puis vérification structurée des références professionnelles.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-shield-alt mr-1"></i> Sécurisation du recrutement</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-2-5')">
+                            <h4 class="font-medium">1.2.5. Décision & Offre</h4>
+                            <div id="step-1-2-5" class="step-detail">
+                                <p class="mb-3">Choix final du candidat, préparation automatisée de l'offre à partir de modèles personnalisés et suivi du processus de négociation.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-section 1.3 -->
+                    <div>
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">1.3. Pré-Intégration (Pré-boarding)</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-3-1')">
+                            <h4 class="font-medium">1.3.1. Collecte des documents administratifs initiaux</h4>
+                            <div id="step-1-3-1" class="step-detail">
+                                <p class="mb-3">Transmission sécurisée et suivi des pièces administratives via un portail dédié, avec rappels automatiques.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-file-upload mr-1"></i> Dématérialisation complète</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-3-2')">
+                            <h4 class="font-medium">1.3.2. Préparation logistique de l'arrivée</h4>
+                            <div id="step-1-3-2" class="step-detail">
+                                <p class="mb-3">Coordination automatisée des équipements et accès nécessaires avec les services concernés (IT, Sécurité, Services Généraux).</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-tasks mr-1"></i> Coordination optimisée</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-1-3-3')">
+                            <h4 class="font-medium">1.3.3. Communication avant l'arrivée</h4>
+                            <div id="step-1-3-3" class="step-detail">
+                                <p class="mb-3">Envoi programmé d'informations pratiques et présentation de l'entreprise via un parcours de communication personnalisé.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-comment-dots mr-1"></i> Expérience candidat améliorée</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Phase 2: Intégration & Socialisation -->
+            <div id="phase2" class="phase-content mb-12">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <div class="phase-title-container">
+                        <span class="phase-number">2</span>
+                        <h2 class="text-2xl font-bold seeg-text-blue pl-6 border-b pb-2 mb-4">INTÉGRATION & SOCIALISATION (ONBOARDING)</h2>
+                    </div>
+                    <p class="mb-4">Cette phase cruciale concerne l'accueil et l'intégration effective du nouveau collaborateur au sein de la SEEG, depuis son premier jour jusqu'à la fin de sa période d'essai.</p>
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="module-badge"><i class="fas fa-laptop-code mr-1"></i> Recrutement & Intégration</span>
+                        <span class="module-badge"><i class="fas fa-file-alt mr-1"></i> Gestion Administrative</span>
+                        <span class="module-badge"><i class="fas fa-graduation-cap mr-1"></i> Formation</span>
+                        <span class="module-badge"><i class="fas fa-id-card mr-1"></i> Profil Carrière</span>
+                    </div>
+                    
+                    <!-- Sub-section 2.1 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">2.1. Accueil & Formalités (Jour J)</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-2-1-1')">
+                            <h4 class="font-medium">2.1.1. Arrivée et accueil personnalisé</h4>
+                            <div id="step-2-1-1" class="step-detail">
+                                <p class="mb-3">Programme d'accueil structuré avec notifications automatiques aux parties prenantes et préparation personnalisée.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-smile mr-1"></i> Première impression positive</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-2-1-2')">
+                            <h4 class="font-medium">2.1.2. Finalisation du dossier administratif</h4>
+                            <div id="step-2-1-2" class="step-detail">
+                                <p class="mb-3">Signature électronique du contrat et création instantanée du profil collaborateur dans le système avec toutes ses données administratives.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                    <span class="module-badge">Profil Carrière</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-bolt mr-1"></i> Digitalisation complète</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-2-1-3')">
+                            <h4 class="font-medium">2.1.3. Remise des outils de travail</h4>
+                            <div id="step-2-1-3" class="step-detail">
+                                <p class="mb-3">Coordination et suivi de la remise des équipements, accès et badges avec accusés de réception digitaux.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-check-circle mr-1"></i> Opérationnalité rapide</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-section 2.2 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">2.2. Immersion & Apprentissage Initial</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-2-2-1')">
+                            <h4 class="font-medium">2.2.1. Suivi du plan d'intégration personnalisé</h4>
+                            <div id="step-2-2-1" class="step-detail">
+                                <p class="mb-3">Parcours d'intégration sur mesure avec checklist interactive pour le nouvel arrivant et son manager, incluant rencontres planifiées et objectifs d'apprentissage.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-route mr-1"></i> Parcours structuré</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-2-2-2')">
+                            <h4 class="font-medium">2.2.2. Formations initiales</h4>
+                            <div id="step-2-2-2" class="step-detail">
+                                <p class="mb-3">Programme automatisé de formations obligatoires (sécurité, éthique, outils informatiques) avec suivi de progression et attestations digitales.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Formation</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-graduation-cap mr-1"></i> Montée en compétence accélérée</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-2-2-3')">
+                            <h4 class="font-medium">2.2.3. Accompagnement et mentorat</h4>
+                            <div id="step-2-2-3" class="step-detail">
+                                <p class="mb-3">Désignation et suivi de la relation mentor-mentoré avec échanges et objectifs traçables dans le système.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-hands-helping mr-1"></i> Support personnalisé</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-section 2.3 -->
+                    <div>
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">2.3. Évaluation & Ajustement de l'Intégration</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-2-3-1')">
+                            <h4 class="font-medium">2.3.1. Points de suivi réguliers</h4>
+                            <div id="step-2-3-1" class="step-detail">
+                                <p class="mb-3">Planification automatisée et rappels des points d'échange formels entre le collaborateur, son manager et éventuellement les RH.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Recrutement & Intégration</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-comments mr-1"></i> Communication fluide</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-2-3-2')">
+                            <h4 class="font-medium">2.3.2. Collecte de feedback</h4>
+                            <div id="step-2-3-2" class="step-detail">
+                                <p class="mb-3">Recueil automatisé du rapport d'étonnement et évaluation de l'expérience d'intégration par le nouveau collaborateur.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Évaluations</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-chart-line mr-1"></i> Amélioration continue</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-2-3-3')">
+                            <h4 class="font-medium">2.3.3. Validation de la période d'essai</h4>
+                            <div id="step-2-3-3" class="step-detail">
+                                <p class="mb-3">Suivi des échéances de période d'essai avec alertes, formalisation digitale de la décision et communication automatisée.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-calendar-check mr-1"></i> Conformité assurée</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Phase 3: Engagement & Performance Continue -->
+            <div id="phase3" class="phase-content mb-12">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <div class="phase-title-container">
+                        <span class="phase-number">3</span>
+                        <h2 class="text-2xl font-bold seeg-text-blue pl-6 border-b pb-2 mb-4">ENGAGEMENT & PERFORMANCE CONTINUE (VIE ACTIVE)</h2>
+                    </div>
+                    <p class="mb-4">Cette phase représente la période la plus longue du cycle de vie du collaborateur, couvrant ses activités quotidiennes, sa performance, son développement continu et son engagement au sein de la SEEG.</p>
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="module-badge"><i class="fas fa-file-alt mr-1"></i> Gestion Administrative</span>
+                        <span class="module-badge"><i class="fas fa-id-card mr-1"></i> Profil Carrière</span>
+                        <span class="module-badge"><i class="fas fa-graduation-cap mr-1"></i> Formation</span>
+                        <span class="module-badge"><i class="fas fa-star mr-1"></i> Évaluations</span>
+                        <span class="module-badge"><i class="fas fa-cogs mr-1"></i> GPEC</span>
+                        <span class="module-badge"><i class="fas fa-chart-pie mr-1"></i> Indicateurs RH</span>
+                    </div>
+                    
+                    <!-- Sub-section 3.1 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">3.1. Contribution & Opérations Quotidiennes</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-1-1')">
+                            <h4 class="font-medium">3.1.1. Réalisation des missions et atteinte des objectifs</h4>
+                            <div id="step-3-1-1" class="step-detail">
+                                <p class="mb-3">Suivi et mise à jour des objectifs individuels et d'équipe dans la plateforme, avec visibilité partagée et alignement sur les objectifs d'entreprise.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Évaluations</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-bullseye mr-1"></i> Alignement stratégique</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-1-2')">
+                            <h4 class="font-medium">3.1.2. Gestion administrative courante</h4>
+                            <div id="step-3-1-2" class="step-detail">
+                                <p class="mb-3">Self-service collaborateur et manager pour les demandes d'absences, congés, télétravail avec workflows de validation automatisés et soldes mis à jour en temps réel.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                    <span class="module-badge">Profil Carrière</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-clock mr-1"></i> Gain de temps significatif</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-1-3')">
+                            <h4 class="font-medium">3.1.3. Préparation des éléments de paie</h4>
+                            <div id="step-3-1-3" class="step-detail">
+                                <p class="mb-3">Saisie et validation des éléments variables de paie avec contrôles automatiques et interface sécurisée vers le système de paie.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-shield-alt mr-1"></i> Fiabilité accrue</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-section 3.2 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">3.2. Développement Professionnel Continu</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-2-1')">
+                            <h4 class="font-medium">3.2.1. Identification des besoins de développement</h4>
+                            <div id="step-3-2-1" class="step-detail">
+                                <p class="mb-3">Auto-évaluation des compétences et identification collaborative des axes de progression lors des entretiens avec cartographie dynamique des écarts.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">GPEC</span>
+                                    <span class="module-badge">Profil Carrière</span>
+                                    <span class="module-badge">Évaluations</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-lightbulb mr-1"></i> Développement ciblé</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-2-2')">
+                            <h4 class="font-medium">3.2.2. Accès et participation aux formations</h4>
+                            <div id="step-3-2-2" class="step-detail">
+                                <p class="mb-3">Catalogue de formations digital, inscription en ligne, suivi des e-learning et gestion complète du parcours de formation intégrant présentiel et distanciel.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Formation</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-graduation-cap mr-1"></i> Apprentissage facilité</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-2-3')">
+                            <h4 class="font-medium">3.2.3. Évaluation des formations et acquisition de compétences</h4>
+                            <div id="step-3-2-3" class="step-detail">
+                                <p class="mb-3">Évaluation automatisée post-formation et mise à jour du profil de compétences avec certification des acquis dans le système.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Formation</span>
+                                    <span class="module-badge">Profil Carrière</span>
+                                    <span class="module-badge">GPEC</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-trophy mr-1"></i> Reconnaissance des acquis</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-sections 3.3 to 3.5 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">3.3. Évaluation de la Performance & Feedback</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-3-1')">
+                            <h4 class="font-medium">3.3.1. Entretiens périodiques</h4>
+                            <div id="step-3-3-1" class="step-detail">
+                                <p class="mb-3">Préparation guidée, conduite et suivi des entretiens annuels/semestriels avec workflows personnalisés et historique des échanges.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Évaluations</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-comments mr-1"></i> Dialogue structuré</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-3-2')">
+                            <h4 class="font-medium">3.3.2. Feedback continu</h4>
+                            <div id="step-3-3-2" class="step-detail">
+                                <p class="mb-3">Système de feedback continu entre collaborateurs, managers et équipes avec notifications et reconnaissance des contributions.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Évaluations</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-arrows-alt-h mr-1"></i> Communication permanente</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">3.4. Rémunération & Avantages</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-4-1')">
+                            <h4 class="font-medium">3.4.1. Processus de révision salariale</h4>
+                            <div id="step-3-4-1" class="step-detail">
+                                <p class="mb-3">Campagnes de révision salariale digitalisées avec workflows d'approbation, enveloppes budgétaires et simulation d'impact sur la masse salariale.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                    <span class="module-badge">Indicateurs RH</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-calculator mr-1"></i> Pilotage précis</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-4-2')">
+                            <h4 class="font-medium">3.4.2. Gestion des primes et bonus</h4>
+                            <div id="step-3-4-2" class="step-detail">
+                                <p class="mb-3">Attribution et suivi des primes de performance avec lien aux objectifs atteints et calculs automatisés selon les règles définies.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                    <span class="module-badge">Évaluations</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-award mr-1"></i> Reconnaissance équitable</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">3.5. Engagement & Bien-être</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-5-1')">
+                            <h4 class="font-medium">3.5.1. Participation à la vie de l'entreprise</h4>
+                            <div id="step-3-5-1" class="step-detail">
+                                <p class="mb-3">Plateforme collaborative pour les initiatives d'entreprise, événements et projets transverses avec suivi de l'engagement collaborateur.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Profil Carrière</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-users mr-1"></i> Cohésion renforcée</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-3-5-2')">
+                            <h4 class="font-medium">3.5.2. Écoute et mesure de l'engagement</h4>
+                            <div id="step-3-5-2" class="step-detail">
+                                <p class="mb-3">Enquêtes de satisfaction, baromètres sociaux et pulse surveys avec analyse des résultats et identification des axes d'amélioration.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Indicateurs RH</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-heartbeat mr-1"></i> Culture d'écoute</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Phase 4: Évolution de Carrière & Mobilité -->
+            <div id="phase4" class="phase-content mb-12">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <div class="phase-title-container">
+                        <span class="phase-number">4</span>
+                        <h2 class="text-2xl font-bold seeg-text-blue pl-6 border-b pb-2 mb-4">ÉVOLUTION DE CARRIÈRE & MOBILITÉ</h2>
+                    </div>
+                    <p class="mb-4">Cette phase stratégique concerne le développement de carrière des collaborateurs au sein de la SEEG, incluant les promotions, les mobilités internes et la préparation à l'évolution professionnelle.</p>
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="module-badge"><i class="fas fa-career-ladder mr-1"></i> Carrières & Talents</span>
+                        <span class="module-badge"><i class="fas fa-cogs mr-1"></i> GPEC</span>
+                        <span class="module-badge"><i class="fas fa-graduation-cap mr-1"></i> Formation</span>
+                        <span class="module-badge"><i class="fas fa-star mr-1"></i> Évaluations</span>
+                        <span class="module-badge"><i class="fas fa-database mr-1"></i> Référentiel RH</span>
+                    </div>
+                    
+                    <!-- Sub-section 4.1 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">4.1. Gestion des Talents & Potentiels</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-4-1-1')">
+                            <h4 class="font-medium">4.1.1. Identification des hauts potentiels</h4>
+                            <div id="step-4-1-1" class="step-detail">
+                                <p class="mb-3">Processus collaboratif d'identification des talents avec matrices de potentiel/performance et people reviews digitalisées.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Carrières & Talents</span>
+                                    <span class="module-badge">Évaluations</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-gem mr-1"></i> Valorisation des talents</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-4-1-2')">
+                            <h4 class="font-medium">4.1.2. Plans de développement individualisés</h4>
+                            <div id="step-4-1-2" class="step-detail">
+                                <p class="mb-3">Création et suivi de parcours de développement personnalisés avec objectifs, formations et expériences spécifiques pour préparer les futurs rôles.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Formation</span>
+                                    <span class="module-badge">GPEC</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-rocket mr-1"></i> Accélération ciblée</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-section 4.2 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">4.2. Mobilité Interne</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-4-2-1')">
+                            <h4 class="font-medium">4.2.1. Expression des souhaits d'évolution</h4>
+                            <div id="step-4-2-1" class="step-detail">
+                                <p class="mb-3">Recueil et formalisation des aspirations professionnelles des collaborateurs lors des entretiens de carrière avec matching automatique des profils et opportunités.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Évaluations</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-compass mr-1"></i> Orientation professionnelle</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-4-2-2')">
+                            <h4 class="font-medium">4.2.2. Accès aux opportunités internes</h4>
+                            <div id="step-4-2-2" class="step-detail">
+                                <p class="mb-3">Bourse à l'emploi interne digitale avec notification intelligente des postes correspondant au profil et aux souhaits du collaborateur.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Carrières & Talents</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-door-open mr-1"></i> Transparence des opportunités</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-4-2-3')">
+                            <h4 class="font-medium">4.2.3. Prise de nouvelles fonctions / Promotion</h4>
+                            <div id="step-4-2-3" class="step-detail">
+                                <p class="mb-3">Gestion du processus de transition avec workflow automatisé, mise à jour du profil et traçabilité de l'évolution de carrière.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                    <span class="module-badge">Profil Carrière</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-level-up-alt mr-1"></i> Transition fluide</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-section 4.3 & 4.4 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">4.3. Gestion des Parcours & Plans de Succession</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-4-3-1')">
+                            <h4 class="font-medium">4.3.1. Identification des postes clés et des successeurs</h4>
+                            <div id="step-4-3-1" class="step-detail">
+                                <p class="mb-3">Cartographie dynamique des postes critiques et identification collaborative des successeurs potentiels avec évaluation du niveau de préparation.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Carrières & Talents</span>
+                                    <span class="module-badge">GPEC</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-shield-alt mr-1"></i> Continuité assurée</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-4-3-2')">
+                            <h4 class="font-medium">4.3.2. Préparation des relèves</h4>
+                            <div id="step-4-3-2" class="step-detail">
+                                <p class="mb-3">Plans de développement accélérés pour les successeurs identifiés avec parcours spécifiques et suivi renforcé.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Formation</span>
+                                    <span class="module-badge">Carrières & Talents</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-user-graduate mr-1"></i> Préparation anticipée</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">4.4. Reconnaissance & Fidélisation à Long Terme</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-4-4-1')">
+                            <h4 class="font-medium">4.4.1. Programmes de reconnaissance et fidélisation</h4>
+                            <div id="step-4-4-1" class="step-detail">
+                                <p class="mb-3">Mécanismes de reconnaissance de l'ancienneté et de la contribution durable avec alertes pour les anniversaires de service.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Profil Carrière</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-medal mr-1"></i> Valorisation de la fidélité</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Phase 5: Transition & Départ -->
+            <div id="phase5" class="phase-content mb-12">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <div class="phase-title-container">
+                        <span class="phase-number">5</span>
+                        <h2 class="text-2xl font-bold seeg-text-blue pl-6 border-b pb-2 mb-4">TRANSITION & DÉPART (OFFBOARDING)</h2>
+                    </div>
+                    <p class="mb-4">Cette phase finale du cycle de vie du collaborateur à la SEEG gère le processus de départ, qu'il soit volontaire ou non, et assure une transition professionnelle respectueuse et organisée.</p>
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="module-badge"><i class="fas fa-file-alt mr-1"></i> Gestion Administrative</span>
+                        <span class="module-badge"><i class="fas fa-id-card mr-1"></i> Profil Carrière</span>
+                    </div>
+                    
+                    <!-- Sub-section 5.1 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">5.1. Gestion de la Décision de Départ</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-5-1-1')">
+                            <h4 class="font-medium">5.1.1. Notification du départ</h4>
+                            <div id="step-5-1-1" class="step-detail">
+                                <p class="mb-3">Saisie et formalisation digitale de la décision de départ avec déclenchement automatique du workflow d'offboarding.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-cog mr-1"></i> Processus automatisé</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-5-1-2')">
+                            <h4 class="font-medium">5.1.2. Planification du départ</h4>
+                            <div id="step-5-1-2" class="step-detail">
+                                <p class="mb-3">Calendrier coordonné du départ avec notifications aux parties prenantes et checklist personnalisée des actions à réaliser.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-tasks mr-1"></i> Organisation optimisée</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-section 5.2 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">5.2. Processus de Départ (Offboarding)</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-5-2-1')">
+                            <h4 class="font-medium">5.2.1. Entretien de départ</h4>
+                            <div id="step-5-2-1" class="step-detail">
+                                <p class="mb-3">Questionnaire digital de sortie et entretien formalisé avec analyse des motifs de départ et recueil des suggestions d'amélioration.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                    <span class="module-badge">Indicateurs RH</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-chart-line mr-1"></i> Amélioration continue</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-5-2-2')">
+                            <h4 class="font-medium">5.2.2. Transfert de connaissances et responsabilités</h4>
+                            <div id="step-5-2-2" class="step-detail">
+                                <p class="mb-3">Plan structuré de transfert des connaissances avec suivi d'avancement et validation des étapes critiques.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-exchange-alt mr-1"></i> Préservation du savoir</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-5-2-3')">
+                            <h4 class="font-medium">5.2.3. Restitution du matériel et clôture des accès</h4>
+                            <div id="step-5-2-3" class="step-detail">
+                                <p class="mb-3">Gestion digitale du processus de restitution avec liste des équipements et révocation automatisée des accès systèmes.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-lock mr-1"></i> Sécurité renforcée</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-section 5.3 & 5.4 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">5.3. Formalités Administratives & Solde de Tout Compte</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-5-3-1')">
+                            <h4 class="font-medium">5.3.1. Préparation des éléments pour le STC</h4>
+                            <div id="step-5-3-1" class="step-detail">
+                                <p class="mb-3">Calcul automatisé des éléments du solde de tout compte avec transmission sécurisée au système de paie et suivi de production des documents.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-calculator mr-1"></i> Précision des calculs</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-5-3-2')">
+                            <h4 class="font-medium">5.3.2. Remise des documents de fin de contrat</h4>
+                            <div id="step-5-3-2" class="step-detail">
+                                <p class="mb-3">Production automatisée et traçabilité de remise des documents légaux (certificat de travail, attestation Pôle Emploi, reçu pour solde).</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-file-contract mr-1"></i> Conformité légale</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-5-3-3')">
+                            <h4 class="font-medium">5.3.3. Archivage du dossier employé</h4>
+                            <div id="step-5-3-3" class="step-detail">
+                                <p class="mb-3">Conservation sécurisée et conforme des données du collaborateur avec gestion automatisée des durées de rétention légales.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Gestion Administrative</span>
+                                    <span class="module-badge">Profil Carrière</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-archive mr-1"></i> Gestion compliant</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold seeg-text-blue mb-3">5.4. Post-Départ (Optionnel)</h3>
+                        
+                        <div class="sub-step" onclick="toggleDetail('step-5-4-1')">
+                            <h4 class="font-medium">5.4.1. Gestion du réseau Alumni</h4>
+                            <div id="step-5-4-1" class="step-detail">
+                                <p class="mb-3">Intégration optionnelle au réseau des anciens de la SEEG avec accès spécifique à une plateforme d'échange et maintien du lien professionnel.</p>
+                                <div class="mb-2">
+                                    <span class="font-medium text-sm">Modules MCH :</span>
+                                    <span class="module-badge">Profil Carrière</span>
+                                </div>
+                                <div>
+                                    <span class="benefit-tag"><i class="fas fa-network-wired mr-1"></i> Maintien du réseau</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Transverse Modules Section -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-12 transversal-modules">
+            <h2 class="text-2xl font-bold seeg-text-blue mb-4">MODULES TRANSVERSAUX MCH</h2>
+            <p class="mb-4">Ces modules fondamentaux sont actifs à travers toutes les phases du parcours collaborateur, assurant cohérence et continuité de l'expérience RH.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold seeg-text-blue mb-2"><i class="fas fa-database mr-2"></i> Référentiel RH</h3>
+                    <p>Socle d'informations structurées (fiches de poste, organigramme, référentiels de compétences) garantissant la cohérence des données à travers tout le cycle de vie collaborateur.</p>
+                </div>
+                
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold seeg-text-blue mb-2"><i class="fas fa-chart-pie mr-2"></i> Indicateurs RH & Pilotage</h3>
+                    <p>Tableaux de bord dynamiques et analytiques permettant de suivre les KPIs essentiels à chaque étape du parcours collaborateur et d'identifier les axes d'amélioration.</p>
+                </div>
+                
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold seeg-text-blue mb-2"><i class="fas fa-user-lock mr-2"></i> Gestion des Accès & Sécurité</h3>
+                    <p>Paramétrage fin des droits utilisateurs selon les rôles et responsabilités, garantissant la confidentialité des données et la conformité aux règlements.</p>
+                </div>
+                
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold seeg-text-blue mb-2"><i class="fas fa-bell mr-2"></i> Moteur d'Alertes & Notifications</h3>
+                    <p>Système intelligent d'alertes personnalisées pour les événements clés, échéances importantes et actions requises, facilitant la proactivité et le respect des délais.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Conclusion Section -->
+        <section class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold seeg-text-blue mb-4">Transformation Digitale RH : Les Bénéfices Clés</h2>
+            <p class="mb-6">Le parcours collaborateur digitalisé avec le MCH apporte des avantages significatifs à tous les acteurs de la SEEG :</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="border border-blue-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold seeg-text-blue mb-2"><i class="fas fa-user mr-2"></i> Pour les Collaborateurs</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Autonomie accrue (self-service RH)</li>
+                        <li>Visibilité sur leur parcours professionnel</li>
+                        <li>Accès facilité aux opportunités internes</li>
+                        <li>Processus administratifs simplifiés</li>
+                        <li>Développement personnalisé des compétences</li>
+                    </ul>
+                </div>
+                
+                <div class="border border-blue-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold seeg-text-blue mb-2"><i class="fas fa-user-tie mr-2"></i> Pour les Managers</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Outils d'aide à la décision</li>
+                        <li>Suivi simplifié de leurs équipes</li>
+                        <li>Allègement des tâches administratives</li>
+                        <li>Meilleure gestion des talents</li>
+                        <li>Visibilité sur les compétences disponibles</li>
+                    </ul>
+                </div>
+                
+                <div class="border border-blue-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold seeg-text-blue mb-2"><i class="fas fa-users-cog mr-2"></i> Pour la Fonction RH</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Centralisation des données RH</li>
+                        <li>Fiabilisation des processus</li>
+                        <li>Pilotage stratégique facilité</li>
+                        <li>Réduction des tâches à faible valeur ajoutée</li>
+                        <li>Conformité réglementaire renforcée</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 p-4 rounded-lg text-center">
+                <p class="text-lg font-medium">Le MCH accompagne la transformation RH de la SEEG, positionnant la fonction Capital Humain comme partenaire stratégique de l'entreprise.</p>
+                <p class="text-sm mt-2 text-gray-600">Solution proposée par CNX 4.0 en collaboration avec la Direction du Capital Humain de la SEEG</p>
+            </div>
+        </section>
+    </section>
+
+    <script>
+        // Function to show the selected phase and hide others
+        function showPhase(phaseNumber) {
+            // Hide all phase contents
+            document.querySelectorAll('.phase-content').forEach(function(content) {
+                content.classList.remove('active');
+            });
+            
+            // Show selected phase content
+            document.getElementById('phase' + phaseNumber).classList.add('active');
+            
+            // Reset all phase nodes styling
+            document.querySelectorAll('.phase-node').forEach(function(node, index) {
+                node.classList.remove('phase-node-active');
+                node.classList.add('seeg-light-blue');
+                node.classList.remove('seeg-blue');
+            });
+            
+            // Update selected phase node styling
+            const selectedNode = document.querySelectorAll('.phase-node')[phaseNumber - 1];
+            selectedNode.classList.add('phase-node-active');
+            selectedNode.classList.add('seeg-blue');
+            selectedNode.classList.remove('seeg-light-blue');
+            
+            // Update phase labels styling
+            document.querySelectorAll('.flex.justify-between.text-center h3').forEach(function(label, index) {
+                if (index === phaseNumber - 1) {
+                    label.classList.add('seeg-text-blue');
+                    label.classList.remove('text-gray-600');
+                } else {
+                    label.classList.remove('seeg-text-blue');
+                    label.classList.add('text-gray-600');
+                }
+            });
+            
+            // Scroll to the phase content (with slight delay for animation)
+            setTimeout(function() {
+                document.getElementById('phase' + phaseNumber).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 100);
+        }
+        
+        // Function to toggle step details
+        function toggleDetail(detailId) {
+            const detailElement = document.getElementById(detailId);
+            
+            if (detailElement.style.display === 'block') {
+                detailElement.style.display = 'none';
+            } else {
+                // Close other details in the same parent first
+                const parent = detailElement.closest('.sub-step').parentNode;
+                parent.querySelectorAll('.step-detail').forEach(function(detail) {
+                    if (detail.id !== detailId) {
+                        detail.style.display = 'none';
+                    }
+                });
+                
+                detailElement.style.display = 'block';
+            }
+        }
+        
+        // Initialize with Phase 1 active
+        document.addEventListener('DOMContentLoaded', function() {
+            showPhase(1);
+        });
+    </script>
+</body>
+</html>
